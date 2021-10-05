@@ -2,9 +2,17 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlin.math.floor
 
 fun main() = runBlocking {
     greetFromCoroutine()
+    repeat(100) {
+//        launch 100 coroutines (100_000 => 100k)
+        launch {
+            delay(5000L)
+            println(floor(Math.random() * 100))
+        }
+    }
 }
 
 suspend fun greetFromCoroutine() = coroutineScope {
