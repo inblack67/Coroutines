@@ -4,8 +4,12 @@ import kotlinx.coroutines.runBlocking
 
 fun main () = runBlocking {
     launch {
-        delay(1000L)
-        println("coroutine => hello")
+        greetFromCoroutine()
     }
     println("main => hello")
+}
+
+suspend fun greetFromCoroutine() {
+    delay(1000L)
+    println("coroutine => hello")
 }
