@@ -12,6 +12,12 @@ suspend fun greetFromCoroutine() = coroutineScope {
         delay(1000L)
         println("coroutine => hello")
     }
+    val job = launch {
+        delay(2000L)
+        println("coroutine 2 => hello")
+    }
+    job.join() // wait until child coroutine completes
+    println("coroutine 2 done")
     println("I will be first")
 }
 
