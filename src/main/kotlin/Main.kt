@@ -1,9 +1,22 @@
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {
-//    multiTask()
-    launchMany()
-    println("hello main")
+   heavyTask()
+}
+
+suspend fun heavyTask() = coroutineScope {
+    var count = 0
+    val job = launch {
+        repeat(100) {
+            println("heavy task ${++count}% done")
+            delay(5000)
+        }
+    }
+    delay(1000)
+    println("heavy task took too long, cancelling...")
+    job.cancel()
+    job.join() // wait for job's completion/cancellation
+    println("heavy task function done executing")
 }
 
 suspend fun launchMany() = coroutineScope {
