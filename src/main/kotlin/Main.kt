@@ -1,17 +1,33 @@
 import kotlinx.coroutines.*
-import kotlin.math.floor
 
 fun main() = runBlocking {
-    val job = launch {
-        repeat(100) { it ->
-            println("coroutine is sleeping in $it ms")
-            delay(500L)
+//    multiTask()
+    launchMany()
+    println("hello main")
+}
+
+suspend fun launchMany() = coroutineScope {
+    var count = 0
+    repeat(10) {
+        launch {
+            println("${currentCoroutineContext()} => count => ${++count}")
         }
     }
-    delay(1500L)
-    println("main => waiting since forever")
-//    job.cancel()
-//    job.join()
-    job.cancelAndJoin()
-    println("main => I can quit now")
+}
+
+suspend fun multiTask() = coroutineScope {
+    val job1 = launch {
+        println("task 1...")
+    }
+    val job2 = launch {
+        println("task 2...")
+    }
+    job1.join()
+    job2.join()
+    println("multi task finished") // executed when the above two jobs are completed
+}
+
+suspend fun greet(){
+    delay(1000)
+    println("hello world")
 }
